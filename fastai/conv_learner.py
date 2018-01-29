@@ -45,9 +45,10 @@ class ConvnetBuilder():
 
         fc_layers = self.get_fc_layers()
         self.n_fc = len(fc_layers)
-        self.fc_model = to_gpu(nn.Sequential(*fc_layers))
+        # removed to_gpu() call on lines 49 and 51 here, 48 and 50 in original file. testing for running on gpu google colab
+        self.fc_model = nn.Sequential(*fc_layers)
         apply_init(self.fc_model, kaiming_normal)
-        self.model = to_gpu(nn.Sequential(*(layers+fc_layers)))
+        self.model = nn.Sequential(*(layers+fc_layers))
 
     @property
     def name(self): return f'{self.f.__name__}_{self.xtra_cut}'
